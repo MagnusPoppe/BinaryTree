@@ -5,35 +5,39 @@
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import tree.BinaryNode;
 
-public class Gui extends Application {
+public class Gui extends Application
+{
 
     // Constants
-    final private static double RADIUS = 50;
+    final public static double RADIUS = 20;
 
     // Graphical elements
-    Group root;
+    static Group root;
 
 
     @Override
-    public void start(Stage stage) {
+    public void start(Stage stage)
+    {
         Controller<String> ctrl = new Controller<>();
 
         Scene scene = new Scene( root, ctrl.X, ctrl.Y );
         stage.setScene( scene );
         stage.setTitle( "Graphical view of a binary tree" );
-        stage.show();
-
         ctrl.run();
+        stage.show();
     }
 
-    public Gui() {
+    public Gui()
+    {
         root = new Group();
     }
 
@@ -41,19 +45,25 @@ public class Gui extends Application {
     {
         // Adding line to connect the new circle to parent node.
         Line connection = new Line( x, y, parentX, parentY );
+        connection.setStrokeWidth(2);
         root.getChildren().add( connection );
 
         // Adding a circle representation of the node to scene.
         Circle circle = new Circle( x, y, RADIUS );
+        circle.setFill(Color.LIGHTCORAL);
+        circle.setStroke(Color.BLACK);
         root.getChildren().add( circle );
 
         // Adding the text on top of the node.
-        Text content = new Text( x, y, value.toString() );
-        content.setFont( new Font( "Arial", 12 ) );
+        int offset = 3; //to make the text fit vertically.
+        Text content = new Text( x, y+offset, value.toString() );
+        content.setFont( new Font( "Arial", 12) );
+        content.setTextAlignment(TextAlignment.JUSTIFY);
         root.getChildren().add( content );
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args)
+    {
         launch(args);
     }
 }

@@ -60,6 +60,11 @@ public class BinaryTree<T> {
         return size;
     }
 
+    public int height()
+    {
+        return 10;
+    }
+
 
     //TODO: runWithCallback for all types of iterators.
     /**
