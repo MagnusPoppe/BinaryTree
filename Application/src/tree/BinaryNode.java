@@ -8,12 +8,12 @@ package tree;
  *
  * @Author Magnus Poppe Wang
  */
-class BinaryNode< T >
+public class BinaryNode< T >
 {
 
-    private T element;        //This nodes content.
-    private BinaryNode lc;    //The child on the left hand side.
-    private BinaryNode rc;    //The child on the right hand side.
+    private T element;        // This nodes content.
+    private BinaryNode lc;    // The child on the left hand side.
+    private BinaryNode rc;    // The child on the right hand side.
 
     protected BinaryNode(T element, BinaryNode lc, BinaryNode rc)
     {
@@ -26,27 +26,30 @@ class BinaryNode< T >
      * Standard getter.
      * @return this nodes content.
      */
-    protected T getElement()
+    public T getElement()
     {
         return element;
     }
 
     /**
-     * Standard getter.
+     * Standard setter and getter.
      * @return the node of the left child.
      */
-    protected BinaryNode getLeftChild()
+    public BinaryNode getLeftChild()
     {
         return lc;
     }
 
     /**
-     * Standard getter.
+     * Standard setter and getter.
      * @return the node of the right child.
      */
-    protected BinaryNode getRightChild()
+    public BinaryNode getRightChild()
     {
         return rc;
     }
 
+    public String toString() {
+        return getElement().toString();
+    }
 }

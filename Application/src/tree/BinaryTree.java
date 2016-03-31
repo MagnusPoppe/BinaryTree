@@ -15,19 +15,50 @@ public class BinaryTree<T> {
     private BinaryNode<T> root;
 
 
-    public BinaryTree( T element, BinaryTree lt, BinaryTree rt)
+
+    /**
+     * Constuctor to create a complete tree.
+     * Constuctor to create a complete tree.
+     * @param element
+     * @param lt
+     * @param rt
+     */
+    public BinaryTree( T element, BinaryTree lt, BinaryTree rt )
     {
         this.root = new BinaryNode<>(
             element,
-            lt.getRoot(),
-            rt.getRoot()
+            (lt != null) ? lt.getRoot() : null,
+            (rt != null) ? rt.getRoot() : null
         );
     }
 
-    public BinaryNode getRoot() {
+    public BinaryTree( T element )
+    {
+        this(element, null, null);
+    }
+    /**
+     * Standard getter for the root node.
+     */
+    public BinaryNode getRoot()
+    {
         return root;
     }
+    public int size() {
+        return calculateSize(getRoot(), 1);
+    }
 
+    public static int calculateSize(BinaryNode node, int size) {
+
+        if (node.getLeftChild() != null)
+        {
+            size = calculateSize(node.getLeftChild(), size+1);
+        }
+        if (node.getRightChild() != null)
+        {
+            size = calculateSize(node.getRightChild(), size+1);
+        }
+        return size;
+    }
 
 
     //TODO: runWithCallback for all types of iterators.
