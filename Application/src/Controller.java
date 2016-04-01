@@ -9,7 +9,7 @@ public class Controller<T> {
     // Constants:
     final public static int X = 800; //X-axis length of gui window.
     final public static int Y = 600; //Y-axis length of gui window.
-    int treeheight;
+    int treeHeight;
 
     // Objects:
     Gui gui;
@@ -22,12 +22,8 @@ public class Controller<T> {
 
     public void run()
     {
-        //TODO: Finn en måte å beregne avstander (dele plassen på bredden av sirkler).
-        //TODO: eller, i de rekursive tallene blir jo alltid bredden doblet?
-        treeheight = Y/tree.height();
+        treeHeight = Y/tree.height();
         makeTree( tree.getRoot(), X/2, (int)Gui.RADIUS , 0, X);
-
-        //TODO: tegn sirklene rekursivt slik at alle sirklene blir telt med.
     }
 
     public void makeTree( BinaryNode node, int prevX, int prevY, int leftBorder, int rightBorder)
@@ -37,7 +33,7 @@ public class Controller<T> {
             makeTree(
                 node.getLeftChild(),
                 (leftBorder+center),
-                (prevY+treeheight),
+                (prevY+ treeHeight),
                 leftBorder,
                 rightBorder-center
             );
@@ -46,7 +42,7 @@ public class Controller<T> {
             makeTree(
                 node.getRightChild(),
                 (leftBorder+center),
-                (prevY+treeheight),
+                (prevY+ treeHeight),
                 leftBorder+center,
                 rightBorder
             );
@@ -54,7 +50,7 @@ public class Controller<T> {
         gui.drawNode(
                 node,
                 (leftBorder + center),
-                (prevY + treeheight),
+                (prevY + treeHeight),
                 prevX,
                 prevY
         );
