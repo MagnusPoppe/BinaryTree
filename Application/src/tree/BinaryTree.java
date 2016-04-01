@@ -60,9 +60,23 @@ public class BinaryTree<T> {
         return size;
     }
 
-    public int height()
+    public int height() {
+        return calculateHeight(getRoot(), 0);
+    }
+
+    public int calculateHeight(BinaryNode node, int height)
     {
-        return 10;
+        int height1 = 0;
+        int height2 = 0;
+        if (node.getLeftChild() != null)
+        {
+            height1 = Math.max(height, calculateSize(node.getLeftChild(), height+1));
+        }
+        if (node.getRightChild() != null)
+        {
+            height2 = Math.max(height, calculateSize(node.getRightChild(), height+1));
+        }
+        return Math.max(height1, height2);
     }
 
 

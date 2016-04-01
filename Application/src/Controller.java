@@ -7,9 +7,9 @@ import tree.BinaryTree;
 public class Controller<T> {
 
     // Constants:
-    final public static int X = 1000; //X-axis length of gui window.
+    final public static int X = 800; //X-axis length of gui window.
     final public static int Y = 600; //Y-axis length of gui window.
-    final public static int treeheight = (int)Gui.RADIUS *3;
+    int treeheight;
 
     // Objects:
     Gui gui;
@@ -24,8 +24,8 @@ public class Controller<T> {
     {
         //TODO: Finn en måte å beregne avstander (dele plassen på bredden av sirkler).
         //TODO: eller, i de rekursive tallene blir jo alltid bredden doblet?
-
-        makeTree( tree.getRoot(), X/2, treeheight , 0, X);
+        treeheight = Y/tree.height();
+        makeTree( tree.getRoot(), X/2, (int)Gui.RADIUS , 0, X);
 
         //TODO: tegn sirklene rekursivt slik at alle sirklene blir telt med.
     }
@@ -63,17 +63,21 @@ public class Controller<T> {
 
     public BinaryTree createDummyTree()
     {
+
+        BinaryTree<String> t = new BinaryTree<>("t");
+        BinaryTree<String> x = new BinaryTree<>("x");
         BinaryTree<String> c = new BinaryTree<>("c");
-        BinaryTree<String> d = new BinaryTree<>("d");
         BinaryTree<String> e = new BinaryTree<>("e");
         BinaryTree<String> g = new BinaryTree<>("g");
         BinaryTree<String> æ = new BinaryTree<>("ø");
-        BinaryTree<String> ø = new BinaryTree<>("æ");
+        BinaryTree<String> q = new BinaryTree<>("q");
+        BinaryTree<String> ø = new BinaryTree<>("æ", q, null);
         BinaryTree<String> å = new BinaryTree<>("å", æ, ø);
         BinaryTree<String> f = new BinaryTree<>("f", g, å);
         BinaryTree<String> a = new BinaryTree<>("a", e, f);
+        BinaryTree<String> d = new BinaryTree<>("d", t, x);
         BinaryTree<String> b = new BinaryTree<>("b", c, d);
-        BinaryTree<String> tree = new BinaryTree<>("root", a, b);
+        BinaryTree<String> tree = new BinaryTree<>("R", a, b);
         return tree;
     }
 }

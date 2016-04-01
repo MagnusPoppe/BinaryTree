@@ -3,6 +3,7 @@
  */
 
 import javafx.application.Application;
+import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.paint.Color;
@@ -50,15 +51,15 @@ public class Gui extends Application
 
         // Adding a circle representation of the node to scene.
         Circle circle = new Circle( x, y, RADIUS );
-        circle.setFill(Color.LIGHTCORAL);
+        circle.setFill(Color.LIGHTBLUE);
         circle.setStroke(Color.BLACK);
         root.getChildren().add( circle );
 
         // Adding the text on top of the node.
         int offset = 3; //to make the text fit vertically.
-        Text content = new Text( x, y+offset, value.toString() );
+        Text content = new Text( x-3, y+offset, value.toString() );
         content.setFont( new Font( "Arial", 12) );
-        content.setTextAlignment(TextAlignment.JUSTIFY);
+        content.setTextAlignment(TextAlignment.CENTER);
         root.getChildren().add( content );
     }
 
