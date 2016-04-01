@@ -1,7 +1,5 @@
 package tree;
 
-import tree.Iterator.PreOrderIterator;
-
 import java.util.Iterator;
 
 /**
@@ -111,12 +109,15 @@ public class BinaryTree<T> implements Iterable<T>
         return Math.max(height1, height2);
     }
 
+
+    /**
+     * Factory method to create an iterator on the rootnode.
+     * @return
+     */
     @Override
     public Iterator<T> iterator() {
-        return new PreOrderIterator<>();
+        return root.iterator();
     }
-
-
 
     /**
      * TODO: Make navigation with bit adresses.
