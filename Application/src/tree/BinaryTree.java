@@ -1,6 +1,7 @@
 package tree;
 
 import java.util.Iterator;
+import java.util.LinkedList;
 
 /**
  * Created by Magnu on 31.03.2016.
@@ -63,7 +64,7 @@ public class BinaryTree<T> implements Iterable<T>
      * @param size used for recursion
      * @return the size of the tree.
      */
-    public static int calculateSize(BinaryNode node, int size)
+    private static int calculateSize(BinaryNode node, int size)
     {
 
         if (node.getLeftChild() != null)
@@ -94,7 +95,7 @@ public class BinaryTree<T> implements Iterable<T>
      * @param height
      * @return the height of the tree.
      */
-    public int calculateHeight(BinaryNode node, int height)
+    private int calculateHeight(BinaryNode node, int height)
     {
         int height1 = 0;
         int height2 = 0;
@@ -111,12 +112,119 @@ public class BinaryTree<T> implements Iterable<T>
 
 
     /**
-     * Factory method to create an iterator on the rootnode.
-     * @return
+     * Factory method to create an iterator.
+     * Default iterator is Pre Order Iterator.
+     * @return Default Iterator
      */
     @Override
     public Iterator<T> iterator() {
-        return root.iterator();
+        return new PreOrderIterator();
+    }
+    /****************************************************
+     *                  THE ITERATORS:                  *
+     *                                                  *
+     * The following inner classes are the different    *
+     * iterators for the binary tree and binary node    *
+     * classes.                                         *
+     *                                                  *
+     ****************************************************/
+
+
+    /**
+     * Operates with me first, then others.
+     * The first node is root, then the whole left tree,
+     * followed by the right tree.
+     *
+     * THIS IS THE DEFAULT ITERATOR FOR BINARYTREE/BINARYNODE.
+     */
+    public class PreOrderIterator implements TreeIterator
+    {
+        BinaryNode<T> current;
+        LinkedList<BinaryNode<T>> queue;
+
+        public PreOrderIterator() {
+            this.queue = new LinkedList<>();
+            queue.push(getRoot());
+        }
+
+        /**
+         * If the queue is empty, then there are no more nodes to get.
+         * @return the opposite of linkedlists "isEmpty()" method.
+         */
+        @Override
+        public boolean hasNext()
+        {
+            return !queue.isEmpty();
+        }
+
+        /**
+         * Gets the next object according to the rules of pre order.
+         * @return
+         */
+        @Override
+        public T next()
+        {
+            // Getting the object in question:
+            current = queue.pop();
+
+            // Testing if we can queue the right hand node.
+            if (current.getRightChild() != null) {
+                queue.push(current.getRightChild());
+            }
+
+            // Testing if we can queue the left hand node.
+            if( current.getLeftChild() != null) {
+                queue.push(current.getLeftChild());
+            }
+
+            //returns the current element:
+            return current.getElement();
+        }
+    }
+
+    public class PostOrderIterator implements TreeIterator
+    {
+        LinkedList<T> queue;
+
+        @Override
+        public boolean hasNext() {
+            return false;
+        }
+
+        @Override
+        public T next() {
+            return null;
+        }
+    }
+
+    public class LevelOrderIterator implements TreeIterator
+    {
+        LinkedList<T> queue;
+
+        @Override
+        public boolean hasNext() {
+            return false;
+        }
+
+        @Override
+        public T next() {
+            return null;
+        }
+    }
+
+    public class InOrderIterator implements TreeIterator
+    {
+        LinkedList<T> queue;
+
+        @Override
+        public boolean hasNext() {
+            return false;
+        }
+
+        @Override
+        public T next() {
+            return null;
+        }
     }
 
     /**

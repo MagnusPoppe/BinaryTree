@@ -56,7 +56,7 @@ public class Gui extends Application
 
         // Adding the text on top of the node.
         int offset = 3; //to make the text fit vertically.
-        Text content = new Text( x-3, y+offset, value.toString() );
+        Text content = new Text( x-offset, y+offset, value.toString() );
         content.setFont( new Font( "Arial", 12) );
         content.setTextAlignment(TextAlignment.CENTER);
         root.getChildren().add( content );
