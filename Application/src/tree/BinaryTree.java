@@ -180,6 +180,9 @@ public class BinaryTree< T > implements Iterable< T > {
         LinkedList< BinaryNode< T > > stack;
 
         public PreOrderIterator( ) {
+            if( getRoot() == null ) {
+                throw new NullPointerException( "No elements in the tree." );
+            }
             this.stack = new LinkedList<>( );
             stack.push( getRoot( ) );
         }
@@ -233,6 +236,9 @@ public class BinaryTree< T > implements Iterable< T > {
         LinkedList< Integer > seenStack;
 
         public PostOrderIterator( ) {
+            if( getRoot() == null ) {
+                throw new NullPointerException( "No elements in the tree." );
+            }
             stack = new LinkedList<>( );
             stack.push( getRoot( ) );
 
@@ -290,7 +296,8 @@ public class BinaryTree< T > implements Iterable< T > {
     }
 
     /****************************************************
-     *
+     * Gets the elements by the height of the element,
+     * from top being 0 to bottom being last.
      */
     public class LevelOrderIterator implements TreeIterator
     {
@@ -302,6 +309,9 @@ public class BinaryTree< T > implements Iterable< T > {
 
         public LevelOrderIterator()
         {
+            if( getRoot() == null ) {
+                throw new NullPointerException( "No elements in the tree." );
+            }
             queue = new Queue<>(  );
             queue.enqueue(getRoot());
         }
@@ -342,6 +352,9 @@ public class BinaryTree< T > implements Iterable< T > {
 
         public InOrderIterator( )
         {
+            if( getRoot() == null ) {
+                throw new NullPointerException( "No elements in the tree." );
+            }
             stack = new LinkedList<>( );
             stack.push( getRoot( ) );
             seenStack = new LinkedList<>( );

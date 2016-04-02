@@ -20,7 +20,7 @@ public class Controller< T > {
         tree = createDummyTree( );
     }
 
-    public void run( )
+    public void buildTree( )
     {
         treeHeight = Y / tree.height( );
         makeTree( tree.getRoot( ), X / 2, ( int ) Gui.RADIUS, 0, X );
@@ -56,6 +56,8 @@ public class Controller< T > {
         );
         return;
     }
+
+    public void lighteffects
 
     public static  BinaryTree createDummyTree( )
     {
