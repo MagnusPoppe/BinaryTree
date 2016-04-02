@@ -13,7 +13,7 @@ public class Controller< T > {
     // Constants:
     final public static int X = 800; //X-axis length of gui window.
     final public static int Y = 600; //Y-axis length of gui window.
-    int treeHeight;
+    public static int treeHeight;
 
     // Objects:
     Gui gui;
