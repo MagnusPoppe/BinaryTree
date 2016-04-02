@@ -1,11 +1,31 @@
 package tree;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
 
 /**
- * Created by Magnu on 31.03.2016.
+ * Binary tree class uses a single rootnode to create
+ * a tree.Because this class is BIG, here's an overiew:
+ *
+ * INNER CLASSES:
+ *      PreOrderIterator, creates a preorder iterator.
+ *      PostOrderIterator, creates a postorder iterator.
+ *      LevelOrderIterator, creates a levelorder iterator.
+ *      InOrderIterator, creates a inorder iterator.
+ *
+ * METHOD LIST:
+ *      getRoot(): returns the root element.
+ *      size() = calculateSize(): returns the number of elements in the tree.
+ *      height() = calculateHeight(): returns the height of the tree.
+ *      iterator(): Returns the default iterator.
+ *      preOrderIterator(): returns a preorder iterator.
+ *      postOrderIterator(): returns a postorder iterator.
+ *      levelOrderIterator(): returns a levelorder iterator.
+ *      inOrderIterator(): returns a inorder Iterator.
+ *
+ * Created by Magnus Poppe Wang on 31.03.2016.
+ *
+ * @Author Magnus Poppe Wang
  */
 public class BinaryTree< T > implements Iterable< T > {
 
@@ -19,9 +39,9 @@ public class BinaryTree< T > implements Iterable< T > {
     /**
      * Constuctor to create a complete tree.
      *
-     * @param element
-     * @param lt
-     * @param rt
+     * @param element for the root node.
+     * @param lt left hand tree.
+     * @param rt right hand tree.
      */
     public BinaryTree( T element, BinaryTree lt, BinaryTree rt ) {
         this.root = new BinaryNode<>(
@@ -34,7 +54,7 @@ public class BinaryTree< T > implements Iterable< T > {
     /**
      * Second constructor for creating only the root node.
      *
-     * @param element
+     * @param element for the root node.
      */
     public BinaryTree( T element ) {
         this( element, null, null );
@@ -156,7 +176,7 @@ public class BinaryTree< T > implements Iterable< T > {
 
 
     /****************************************************
-     *                  THE ITERATORS:                  *
+     *               THE ITERATOR CLASSES:              *
      *                                                  *
      * The following inner classes are the different    *
      * iterators for the binary tree and binary node    *
@@ -178,6 +198,9 @@ public class BinaryTree< T > implements Iterable< T > {
         BinaryNode< T > current;
         LinkedList< BinaryNode< T > > stack;
 
+        /**
+         * Constructor.
+         */
         public PreOrderIterator( ) {
             if( getRoot() == null ) {
                 throw new NullPointerException( "No elements in the tree." );
@@ -248,6 +271,9 @@ public class BinaryTree< T > implements Iterable< T > {
         LinkedList< BinaryNode< T > > stack;
         LinkedList< Integer > seenStack;
 
+        /**
+         * Constructor.
+         */
         public PostOrderIterator( ) {
             if( getRoot() == null ) {
                 throw new NullPointerException( "No elements in the tree." );
@@ -285,6 +311,10 @@ public class BinaryTree< T > implements Iterable< T > {
             return nextMethod();
         }
 
+        /**
+         * Gets the next node according to the rules of post order.
+         * @return next node.
+         */
         public BinaryNode<T> nextMethod( ) {
 
             while ( true ) {
@@ -335,6 +365,9 @@ public class BinaryTree< T > implements Iterable< T > {
         // proper method names.
         Queue<BinaryNode< T > > queue;
 
+        /**
+         * Constructor.
+         */
         public LevelOrderIterator()
         {
             if( getRoot() == null ) {
@@ -344,11 +377,21 @@ public class BinaryTree< T > implements Iterable< T > {
             queue.enqueue(getRoot());
         }
 
+        /**
+         * Checks if the queue is empty to find out wheither
+         * there are more elements in the tree.
+         * @return "true" if the queue is not empty.
+         */
         @Override
         public boolean hasNext( )
         {
             return !queue.isEmpty();
         }
+
+        /**
+         * Gets the next node via "nextMethod()".
+         * @return Element of the next node.
+         */
         @Override
         public T next() {
             return nextMethod().getElement();
@@ -362,10 +405,16 @@ public class BinaryTree< T > implements Iterable< T > {
             return nextMethod();
         }
 
+        /**
+         * Gets the next node according to the rules of level order.
+         * @return next node.
+         */
         public BinaryNode<T> nextMethod( )
         {
+            // Dequeues the current element for processing.
             current = queue.dequeue();
 
+            // Enqueues the items of the next line, in proper succession.
             if (current.getLeftChild() != null ) {
                 queue.enqueue(current.getLeftChild());
             }
@@ -373,6 +422,7 @@ public class BinaryTree< T > implements Iterable< T > {
                 queue.enqueue(current.getRightChild());
             }
 
+            // Returns the element for processing.
             return current;
         }
     }
@@ -389,6 +439,9 @@ public class BinaryTree< T > implements Iterable< T > {
         LinkedList< BinaryNode< T > > stack;
         LinkedList< Integer > seenStack;
 
+        /**
+         * Constructor.
+         */
         public InOrderIterator( )
         {
             if( getRoot() == null ) {
@@ -409,7 +462,11 @@ public class BinaryTree< T > implements Iterable< T > {
             return !stack.isEmpty( );
         }
 
-
+        /**
+         * Uses the "nextMethod()" to get the element of the
+         * next node.
+         * @return the element of the next node.
+         */
         @Override
         public T next() {
             return nextMethod().getElement();

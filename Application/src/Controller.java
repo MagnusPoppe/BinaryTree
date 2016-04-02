@@ -1,23 +1,23 @@
 import tree.BinaryNode;
 import tree.BinaryTree;
 import tree.TreeIterator;
-
-import java.util.Iterator;
-
-
 /**
- * Created by Magnu on 31.03.2016.
+ * Controller class for the graphical view of a
+ * binary trees MVC. Runs different animations.
+ * Created by Magnus Poppe Wang on 31.03.2016.
+ *
+ * @author Magnus Poppe Wang
  */
 public class Controller< T > {
 
     // Constants:
     final public static int X = 800; //X-axis length of gui window.
     final public static int Y = 600; //Y-axis length of gui window.
-    public static int treeHeight;
 
     // Objects:
     Gui gui;
     BinaryTree< T > tree;
+    public static int treeHeight;
 
     /**
      * constructor.
@@ -25,7 +25,7 @@ public class Controller< T > {
     public Controller( )
     {
         gui = new Gui( );
-        setActionListeners();
+        setActionListeners( );
         tree = createDummyTree( );
     }
 
@@ -41,10 +41,11 @@ public class Controller< T > {
 
     /**
      * Graphicly builds the tree from a root node.
-     * @param node rootnode.
-     * @param prevX for recursion
-     * @param prevY for recursion
-     * @param leftBorder to find placements for circles.
+     *
+     * @param node        rootnode.
+     * @param prevX       for recursion
+     * @param prevY       for recursion
+     * @param leftBorder  to find placements for circles.
      * @param rightBorder to find placements for circles.
      */
     public void makeTree( BinaryNode node, int prevX, int prevY, int leftBorder, int rightBorder )
@@ -75,38 +76,38 @@ public class Controller< T > {
                 prevX,
                 prevY
         );
-        return;
     }
 
     /**
      * Creates an animation of a iteration. Accepts
      * all kinds of tree iterators.
+     *
      * @param iterator of your choosing.
      */
-    public void lighteffects(TreeIterator iterator)
+    public void lighteffects( TreeIterator iterator )
     {
-        gui.animate.getChildren().clear();
-        while (iterator.hasNext())
-        {
-            BinaryNode<T> current = iterator.nextNode();
+        gui.animate.getChildren( ).clear( );
+        while ( iterator.hasNext( ) ) {
+            BinaryNode< T > current = iterator.nextNode( );
             gui.findCircle( current );
         }
-        gui.animate.play();
+        gui.animate.play( );
     }
 
     /**
      * Sets action listeners to the animation buttons.
      */
-    public void setActionListeners()
+    public void setActionListeners( )
     {
-        gui.preOrder.setOnAction( e -> lighteffects(   tree.preOrderIterator()));
-        gui.postOrder.setOnAction( e -> lighteffects(  tree.postOrderIterator()));
-        gui.inOrder.setOnAction( e -> lighteffects(    tree.inOrderIterator()));
-        gui.levelOrder.setOnAction( e -> lighteffects( tree.levelOrderIterator()));
+        gui.preOrder.setOnAction( e -> lighteffects( tree.preOrderIterator( ) ) );
+        gui.postOrder.setOnAction( e -> lighteffects( tree.postOrderIterator( ) ) );
+        gui.inOrder.setOnAction( e -> lighteffects( tree.inOrderIterator( ) ) );
+        gui.levelOrder.setOnAction( e -> lighteffects( tree.levelOrderIterator( ) ) );
     }
 
     /**
      * Creates dummytree for testing purposes.
+     *
      * @return a tree.
      */
     public static BinaryTree createDummyTree( )

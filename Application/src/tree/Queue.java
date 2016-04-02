@@ -1,6 +1,4 @@
 package tree;
-
-
 import java.util.LinkedList;
 
 /** Programmet bruker en LinkedList til å lage køsystem.
@@ -37,7 +35,7 @@ public class Queue<T> {
      * Fjerner gjeldende element fra køen.
      */
     public T dequeue() {
-        T element = liste.get( 0 );
+        T element = getFirst();
         liste.remove(0);
         return element;
     }
@@ -49,6 +47,10 @@ public class Queue<T> {
         return liste.get(0);
     }
 
+    /** Is empty:
+     * Sjekker om køen er tom.
+     * @return "true" hvis køen er tom.
+     */
     public boolean isEmpty() {
         return liste.isEmpty();
     }

@@ -1,7 +1,3 @@
-/**
- * Created by Magnu on 31.03.2016.
- */
-
 import javafx.animation.FillTransition;
 import javafx.animation.SequentialTransition;
 import javafx.application.Application;
@@ -22,15 +18,22 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import tree.BinaryNode;
 
+/**
+ * Graphical user interface class for the graphical
+ * view of a binary tree MVC. Creates graphics.
+ * Created by Magnus Poppe Wang on 31.03.2016.
+ *
+ * @author Magnus Poppe Wang
+ */
 public class Gui extends Application {
 
     // Constants
-    final public static double      RADIUS = 20;
-    final public static double      PANELWIDTH = 125;
-    final public static double      WINDOWWIDTH = PANELWIDTH + Controller.X;
-    final private static Color      NODECOLOR =  Color.LIGHTBLUE;
-    final private static Color      ANIMATECOLOR = Color.LIGHTCYAN;
-    final private static Duration   BLINKTIME = new Duration( 100 );
+    final public static double RADIUS = 20;
+    final public static double PANELWIDTH = 125;
+    final public static double WINDOWWIDTH = PANELWIDTH + Controller.X;
+    final private static Color NODECOLOR = Color.LIGHTBLUE;
+    final private static Color ANIMATECOLOR = Color.LIGHTCYAN;
+    final private static Duration BLINKTIME = new Duration( 100 );
 
     // Graphical elements
     static BorderPane root;
@@ -63,21 +66,21 @@ public class Gui extends Application {
     {
         // Readying the window:
         group = new Group( );
-        panel = new GridPane();
-        root = new BorderPane();
-        root.setCenter(group);
+        panel = new GridPane( );
+        root = new BorderPane( );
+        root.setCenter( group );
         root.setBottom( panel );
 
         // Creating the controls:
-        iteration = new Label("      Iterationeffects:     ");
-        preOrder = new Button("  Preorder iteration ");
-        postOrder = new Button("Postorder iteration " );
-        inOrder = new Button(" Inorder iteration    " );
-        levelOrder = new Button("Levelorder iteration" );
-        panel.addRow(0, iteration, preOrder, postOrder, inOrder, levelOrder);
+        iteration = new Label( "      Iterationeffects:     " );
+        preOrder = new Button( "  Preorder iteration " );
+        postOrder = new Button( "Postorder iteration " );
+        inOrder = new Button( " Inorder iteration    " );
+        levelOrder = new Button( "Levelorder iteration" );
+        panel.addRow( 0, iteration, preOrder, postOrder, inOrder, levelOrder );
 
         // Readying animations.
-        animate = new SequentialTransition(  );
+        animate = new SequentialTransition( );
     }
 
     /**
@@ -93,7 +96,7 @@ public class Gui extends Application {
     public void drawNode( BinaryNode value, double x, double y, double parentX, double parentY )
     {
         // Adding line to connect the new circle to parent node.
-        if (y != Controller.treeHeight+ Gui.RADIUS) { //If not rot
+        if ( y != Controller.treeHeight + Gui.RADIUS ) { //If not rot
             Line connection = new Line( x, y, parentX, parentY );
             connection.setStrokeWidth( 2 );
             group.getChildren( ).add( connection );
@@ -120,17 +123,17 @@ public class Gui extends Application {
      * method in the Controller class.
      * @param value of a node
      */
-    public static void findCircle( BinaryNode value) {
+    public static void findCircle( BinaryNode value ) {
         int i = 0;
-        for( Node n : group.getChildren()) {
-            if (n instanceof Text) {
-                Text other = (Text) n;
-                if(other.getText().equals(value.getElement().toString())) {
-                    Circle c = (Circle)group.getChildren().get( i-1 );
-                    FillTransition ft = new FillTransition( BLINKTIME, c, NODECOLOR, ANIMATECOLOR);
-                    ft.setCycleCount(2);
-                    ft.setAutoReverse(true);
-                    animate.getChildren().addAll( ft );
+        for ( Node n : group.getChildren( ) ) {
+            if ( n instanceof Text ) {
+                Text other = ( Text ) n;
+                if ( other.getText( ).equals( value.getElement( ).toString( ) ) ) {
+                    Circle c = ( Circle ) group.getChildren( ).get( i - 1 );
+                    FillTransition ft = new FillTransition( BLINKTIME, c, NODECOLOR, ANIMATECOLOR );
+                    ft.setCycleCount( 2 );
+                    ft.setAutoReverse( true );
+                    animate.getChildren( ).addAll( ft );
                 }
             }
             i++;

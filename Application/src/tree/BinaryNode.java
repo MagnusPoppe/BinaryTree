@@ -1,8 +1,5 @@
 package tree;
 
-import java.util.Iterator;
-import java.util.LinkedList;
-
 /**
  * Created by Magnus Poppe Wang on 31.03.2016.
  * <p/>
@@ -17,6 +14,13 @@ public class BinaryNode< T > {
     private BinaryNode lc;    // The child on the left hand side.
     private BinaryNode rc;    // The child on the right hand side.
 
+    /**
+     * Constructor:
+     *
+     * @param element for this node.
+     * @param lc      left hand child node.
+     * @param rc      right hand child node.
+     */
     protected BinaryNode( T element, BinaryNode lc, BinaryNode rc )
     {
         this.element = element;
