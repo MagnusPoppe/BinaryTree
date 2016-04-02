@@ -1,5 +1,6 @@
 package tree;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
 
@@ -48,7 +49,7 @@ public class BinaryTree< T > implements Iterable< T > {
 
     /**
      * Gets the size of the whole tree, beginning from root.
-     * Previously used, but not anymore. Factory method.
+     * Previously used, but not anymore.
      *
      * @return the total amount of nodes in the tree.
      */
@@ -76,9 +77,7 @@ public class BinaryTree< T > implements Iterable< T > {
     }
 
     /**
-     * Gets the height of the tree. Factory method for the
-     * "calculateHeight() method.
-     *
+     * Gets the height of the tree.
      * @return the height of the tree
      */
     public int height( ) {
@@ -88,7 +87,6 @@ public class BinaryTree< T > implements Iterable< T > {
     /**
      * calculates the height of the left child tree and the
      * right child tree, then selects the tallest.
-     *
      * @param node
      * @param height
      * @return the height of the tree.
@@ -296,15 +294,24 @@ public class BinaryTree< T > implements Iterable< T > {
      */
     public class LevelOrderIterator implements TreeIterator
     {
-        LinkedList< T > queue;
+        BinaryNode< T > current;
+        BinaryNode< T > > queue;
 
-        @Override
-        public boolean hasNext( ) {
-            return false;
+        public LevelOrderIterator()
+        {
+            queue = new ArrayList<>(  );
+            queue.add
         }
 
         @Override
-        public T next( ) {
+        public boolean hasNext( )
+        {
+            return !queue.isEmpty();
+        }
+
+        @Override
+        public T next( )
+        {
             return null;
         }
     }
@@ -381,11 +388,4 @@ public class BinaryTree< T > implements Iterable< T > {
             }
         }
     }
-
-    /**
-     * TODO: Make navigation with bit adresses.
-     *       1 is rootnode, and 10 is rootnode's leftnode.
-     *       101 is rootnode's leftchild's rightchild.
-     * TODO: runWithCallback for all types of iterators.
-     */
 }
