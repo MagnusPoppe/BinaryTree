@@ -103,7 +103,6 @@ public class BinaryTree< T > implements Iterable< T > {
         return Math.max( height1, height2 );
     }
 
-
     /**
      * Factory method to create an iterator.
      * Default iterator is Pre Order Iterator.
@@ -120,7 +119,7 @@ public class BinaryTree< T > implements Iterable< T > {
      * iterator.
      * @return preorder iterator
      */
-    public Iterator< T > preOrderIterator( ) {
+    public TreeIterator< T > preOrderIterator( ) {
         return new PreOrderIterator( );
     }
 
@@ -129,7 +128,7 @@ public class BinaryTree< T > implements Iterable< T > {
      * iterator.
      * @return postorder iterator
      */
-    public Iterator< T > postOrderIterator( ) {
+    public TreeIterator< T > postOrderIterator( ) {
         return new PostOrderIterator( );
     }
 
@@ -138,7 +137,7 @@ public class BinaryTree< T > implements Iterable< T > {
      * iterator.
      * @return levelorder iterator
      */
-    public Iterator< T > levelOrderterator( ) {
+    public TreeIterator< T > levelOrderIterator( ) {
         return new LevelOrderIterator( );
     }
 
@@ -147,7 +146,7 @@ public class BinaryTree< T > implements Iterable< T > {
      * iterator.
      * @return inorder iterator
      */
-    public Iterator< T > inOrderIterator( ) {
+    public TreeIterator< T > inOrderIterator( ) {
         return new InOrderIterator( );
     }
 
@@ -198,12 +197,26 @@ public class BinaryTree< T > implements Iterable< T > {
         }
 
         /**
-         * Gets the next object according to the rules of pre order.
-         *
-         * @return
+         * @return the next element.
          */
         @Override
-        public T next( ) {
+        public T next() {
+            return nextMethod().getElement();
+        }
+
+        /**
+         * @return the next node
+         */
+        @Override
+        public BinaryNode<T> nextNode() {
+            return nextMethod();
+        }
+
+        /**
+         * Gets the next node according to the rules of pre order.
+         * @return next node.
+         */
+        public BinaryNode<T> nextMethod( ) {
             // Getting the object in question:
             current = stack.pop( );
 
@@ -218,7 +231,7 @@ public class BinaryTree< T > implements Iterable< T > {
             }
 
             //returns the current element:
-            return current.getElement( );
+            return current;
         }
     }
 
@@ -256,8 +269,23 @@ public class BinaryTree< T > implements Iterable< T > {
             return !stack.isEmpty( );
         }
 
+        /**
+         * @return the next element.
+         */
         @Override
-        public T next( ) {
+        public T next() {
+            return nextMethod().getElement();
+        }
+
+        /**
+         * @return the next node
+         */
+        @Override
+        public BinaryNode<T> nextNode() {
+            return nextMethod();
+        }
+
+        public BinaryNode<T> nextMethod( ) {
 
             while ( true ) {
 
@@ -267,7 +295,7 @@ public class BinaryTree< T > implements Iterable< T > {
 
                 // The third time is the time to process.
                 if ( seen == 3 ) {
-                    return current.getElement( );
+                    return current;
                 }
                 // The second time we go to the right.
                 else if ( seen == 2 ) {
@@ -321,9 +349,20 @@ public class BinaryTree< T > implements Iterable< T > {
         {
             return !queue.isEmpty();
         }
-
         @Override
-        public T next( )
+        public T next() {
+            return nextMethod().getElement();
+        }
+
+        /**
+         * @return the next node
+         */
+        @Override
+        public BinaryNode<T> nextNode() {
+            return nextMethod();
+        }
+
+        public BinaryNode<T> nextMethod( )
         {
             current = queue.dequeue();
 
@@ -334,7 +373,7 @@ public class BinaryTree< T > implements Iterable< T > {
                 queue.enqueue(current.getRightChild());
             }
 
-            return current.getElement();
+            return current;
         }
     }
 
@@ -370,14 +409,27 @@ public class BinaryTree< T > implements Iterable< T > {
             return !stack.isEmpty( );
         }
 
+
+        @Override
+        public T next() {
+            return nextMethod().getElement();
+        }
+
+        /**
+         * @return the next node
+         */
+        @Override
+        public BinaryNode<T> nextNode() {
+            return nextMethod();
+        }
+
         /**
          * Delivers the next element according to the rules
          * of the inorder iterator.
          *
          * @return next element.
          */
-        @Override
-        public T next( )
+        public BinaryNode<T> nextMethod( )
         {
             while ( true ) {
                 current = stack.pop( );
@@ -408,7 +460,7 @@ public class BinaryTree< T > implements Iterable< T > {
                     }
 
                     // We return the element.
-                    return current.getElement( );
+                    return current;
                 }
             }
         }

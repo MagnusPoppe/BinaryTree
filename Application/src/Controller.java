@@ -1,5 +1,9 @@
 import tree.BinaryNode;
 import tree.BinaryTree;
+import tree.TreeIterator;
+
+import java.util.Iterator;
+
 
 /**
  * Created by Magnu on 31.03.2016.
@@ -17,6 +21,7 @@ public class Controller< T > {
 
     public Controller( ) {
         gui = new Gui( );
+        setActionListeners();
         tree = createDummyTree( );
     }
 
@@ -57,9 +62,24 @@ public class Controller< T > {
         return;
     }
 
-    public void lighteffects
+    public void lighteffects(TreeIterator iterator)
+    {
+        gui.animate.getChildren().clear();
+        while (iterator.hasNext())
+        {
+            BinaryNode<T> current = iterator.nextNode();
+            gui.findCircle( current );
+        }
+        gui.animate.play();
+    }
 
-    public static  BinaryTree createDummyTree( )
+    public void setActionListeners() {
+        gui.preOrder.setOnAction( e -> lighteffects(   tree.preOrderIterator()));
+        gui.postOrder.setOnAction( e -> lighteffects(  tree.postOrderIterator()));
+        gui.inOrder.setOnAction( e -> lighteffects(    tree.inOrderIterator()));
+        gui.levelOrder.setOnAction( e -> lighteffects( tree.levelOrderIterator()));
+    }
+    public static BinaryTree createDummyTree( )
     {
 
         BinaryTree< String > t = new BinaryTree<>( "t" );
