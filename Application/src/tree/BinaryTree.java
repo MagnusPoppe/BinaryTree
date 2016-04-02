@@ -57,7 +57,7 @@ public class BinaryTree< T > implements Iterable< T > {
     }
 
     /**
-     * Calculates the size of the tree by recursivly visiting
+     * Calculates the size of the tree by recursively visiting
      * every node. NOTE: Slow.
      *
      * @param node used for recursion
@@ -149,7 +149,8 @@ public class BinaryTree< T > implements Iterable< T > {
      * The first node is root, then the whole left tree,
      * followed by the right tree.
      * <p/>
-     * THIS IS THE DEFAULT ITERATOR FOR BINARYTREE/BINARYNODE.
+     * THIS IS THE DEFAULT ITERATOR FOR
+     * BINARYTREE/BINARYNODE.
      */
     public class PreOrderIterator implements TreeIterator {
         BinaryNode< T > current;
@@ -197,7 +198,9 @@ public class BinaryTree< T > implements Iterable< T > {
 
 
     /****************************************************
-     *
+     * Operates after the principles of "you first, then
+     * me", getting children from first left, then right
+     * before processing it self.
      */
     public class PostOrderIterator implements TreeIterator {
 
@@ -232,11 +235,11 @@ public class BinaryTree< T > implements Iterable< T > {
                 int seen = seenStack.pop( );
                 seen++;
 
-                //The third time is the time to process.
+                // The third time is the time to process.
                 if ( seen == 3 ) {
                     return current.getElement( );
                 }
-                //The second time we go to the right.
+                // The second time we go to the right.
                 else if ( seen == 2 ) {
 
                     stack.push(current);
@@ -247,7 +250,7 @@ public class BinaryTree< T > implements Iterable< T > {
                         seenStack.push( 0 );
                     }
                 }
-                //The first time we go left.
+                // The first time we go left.
                 else if ( seen == 1 ) {
 
                     stack.push(current);
@@ -280,19 +283,74 @@ public class BinaryTree< T > implements Iterable< T > {
     }
 
     /****************************************************
-     *
+     * Operates after the "left first, then me, then
+     * right" principle, getting objects from left to
+     * right in the tree.
      */
     public class InOrderIterator implements TreeIterator {
-        LinkedList< T > queue;
 
-        @Override
-        public boolean hasNext( ) {
-            return false;
+        BinaryNode< T > current;
+        LinkedList< BinaryNode< T > > stack;
+        LinkedList< Integer > seenStack;
+
+        public InOrderIterator()
+        {
+            stack = new LinkedList<>( );
+            stack.push( getRoot() );
+            seenStack = new LinkedList<>();
+            seenStack.push(0);
         }
 
+        /**
+         * @return true if the stack has elements.
+         */
         @Override
-        public T next( ) {
-            return null;
+        public boolean hasNext( )
+        {
+            return !stack.isEmpty();
+        }
+
+        /**
+         * Delivers the next element according to the rules
+         * of the inorder iterator.
+         * @return next element.
+         */
+        @Override
+        public T next( )
+        {
+            while ( true )
+            {
+                current = stack.pop( );
+                int seen = seenStack.pop( );
+                seen++;
+
+                // The first time we go left.
+                if ( seen == 1 ) {
+
+                    // We place current back on the stack.
+                    stack.push(current);
+                    seenStack.push(seen);
+
+                    // The left, if exists, is now next in line to process.
+                    if ( current.getLeftChild( ) != null ) {
+                        stack.push( current.getLeftChild( ) );
+                        seenStack.push( 0 );
+                    }
+                }
+
+                // The second time is the time to process.
+                else if ( seen == 2 ) {
+
+                    // Right if exists is now second in line to process.
+                    if ( current.getRightChild( ) != null ) {
+                        stack.push( current.getRightChild( ) );
+                        seenStack.push( 0 );
+                    }
+
+                    // We return the element.
+                    return current.getElement( );
+                }
+            }
         }
     }
 

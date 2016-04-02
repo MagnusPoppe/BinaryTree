@@ -57,7 +57,7 @@ public class Controller< T > {
         return;
     }
 
-    public BinaryTree createDummyTree( )
+    public static  BinaryTree createDummyTree( )
     {
 
         BinaryTree< String > t = new BinaryTree<>( "t" );
