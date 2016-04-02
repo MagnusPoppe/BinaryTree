@@ -114,24 +114,48 @@ public class BinaryTree< T > implements Iterable< T > {
      */
     @Override
     public Iterator< T > iterator( ) {
-        return new PreOrderIterator( );
+        return preOrderIterator();
     }
 
+    /**
+     * Factory method to create the preorder
+     * iterator.
+     * @return preorder iterator
+     */
     public Iterator< T > preOrderIterator( ) {
         return new PreOrderIterator( );
     }
 
+    /**
+     * Factory method to create the postorder
+     * iterator.
+     * @return postorder iterator
+     */
     public Iterator< T > postOrderIterator( ) {
         return new PostOrderIterator( );
     }
 
+    /**
+     * Factory method to create the levelorder
+     * iterator.
+     * @return levelorder iterator
+     */
     public Iterator< T > levelOrderterator( ) {
         return new LevelOrderIterator( );
     }
 
+    /**
+     * Factory method to create the inorder
+     * iterator.
+     * @return inorder iterator
+     */
     public Iterator< T > inOrderIterator( ) {
         return new InOrderIterator( );
     }
+
+
+
+
 
 
     /****************************************************
@@ -152,7 +176,8 @@ public class BinaryTree< T > implements Iterable< T > {
      * THIS IS THE DEFAULT ITERATOR FOR
      * BINARYTREE/BINARYNODE.
      */
-    public class PreOrderIterator implements TreeIterator {
+    public class PreOrderIterator implements TreeIterator
+    {
         BinaryNode< T > current;
         LinkedList< BinaryNode< T > > stack;
 
@@ -202,7 +227,8 @@ public class BinaryTree< T > implements Iterable< T > {
      * me", getting children from first left, then right
      * before processing it self.
      */
-    public class PostOrderIterator implements TreeIterator {
+    public class PostOrderIterator implements TreeIterator
+    {
 
         BinaryNode< T > current;
         LinkedList< BinaryNode< T > > stack;
@@ -242,8 +268,8 @@ public class BinaryTree< T > implements Iterable< T > {
                 // The second time we go to the right.
                 else if ( seen == 2 ) {
 
-                    stack.push(current);
-                    seenStack.push(seen);
+                    stack.push( current );
+                    seenStack.push( seen );
 
                     if ( current.getRightChild( ) != null ) {
                         stack.push( current.getRightChild( ) );
@@ -253,8 +279,8 @@ public class BinaryTree< T > implements Iterable< T > {
                 // The first time we go left.
                 else if ( seen == 1 ) {
 
-                    stack.push(current);
-                    seenStack.push(seen);
+                    stack.push( current );
+                    seenStack.push( seen );
 
                     if ( current.getLeftChild( ) != null ) {
                         stack.push( current.getLeftChild( ) );
@@ -268,7 +294,8 @@ public class BinaryTree< T > implements Iterable< T > {
     /****************************************************
      *
      */
-    public class LevelOrderIterator implements TreeIterator {
+    public class LevelOrderIterator implements TreeIterator
+    {
         LinkedList< T > queue;
 
         @Override
@@ -287,18 +314,19 @@ public class BinaryTree< T > implements Iterable< T > {
      * right" principle, getting objects from left to
      * right in the tree.
      */
-    public class InOrderIterator implements TreeIterator {
+    public class InOrderIterator implements TreeIterator
+    {
 
         BinaryNode< T > current;
         LinkedList< BinaryNode< T > > stack;
         LinkedList< Integer > seenStack;
 
-        public InOrderIterator()
+        public InOrderIterator( )
         {
             stack = new LinkedList<>( );
-            stack.push( getRoot() );
-            seenStack = new LinkedList<>();
-            seenStack.push(0);
+            stack.push( getRoot( ) );
+            seenStack = new LinkedList<>( );
+            seenStack.push( 0 );
         }
 
         /**
@@ -307,19 +335,19 @@ public class BinaryTree< T > implements Iterable< T > {
         @Override
         public boolean hasNext( )
         {
-            return !stack.isEmpty();
+            return !stack.isEmpty( );
         }
 
         /**
          * Delivers the next element according to the rules
          * of the inorder iterator.
+         *
          * @return next element.
          */
         @Override
         public T next( )
         {
-            while ( true )
-            {
+            while ( true ) {
                 current = stack.pop( );
                 int seen = seenStack.pop( );
                 seen++;
@@ -328,8 +356,8 @@ public class BinaryTree< T > implements Iterable< T > {
                 if ( seen == 1 ) {
 
                     // We place current back on the stack.
-                    stack.push(current);
-                    seenStack.push(seen);
+                    stack.push( current );
+                    seenStack.push( seen );
 
                     // The left, if exists, is now next in line to process.
                     if ( current.getLeftChild( ) != null ) {
