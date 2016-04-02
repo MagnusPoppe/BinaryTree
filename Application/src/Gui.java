@@ -137,6 +137,10 @@ public class Gui extends Application {
         }
     }
 
+    /**
+     * Main.
+     * @param args needed.
+     */
     public static void main( String[] args )
     {
         launch( args );

@@ -19,18 +19,34 @@ public class Controller< T > {
     Gui gui;
     BinaryTree< T > tree;
 
-    public Controller( ) {
+    /**
+     * constructor.
+     */
+    public Controller( )
+    {
         gui = new Gui( );
         setActionListeners();
         tree = createDummyTree( );
     }
 
+    /**
+     * Runs the "makeTree()" method with the
+     * appropriate values.
+     */
     public void buildTree( )
     {
         treeHeight = Y / tree.height( );
         makeTree( tree.getRoot( ), X / 2, ( int ) Gui.RADIUS, 0, X );
     }
 
+    /**
+     * Graphicly builds the tree from a root node.
+     * @param node rootnode.
+     * @param prevX for recursion
+     * @param prevY for recursion
+     * @param leftBorder to find placements for circles.
+     * @param rightBorder to find placements for circles.
+     */
     public void makeTree( BinaryNode node, int prevX, int prevY, int leftBorder, int rightBorder )
     {
         int center = ( rightBorder - leftBorder ) / 2;
@@ -62,6 +78,11 @@ public class Controller< T > {
         return;
     }
 
+    /**
+     * Creates an animation of a iteration. Accepts
+     * all kinds of tree iterators.
+     * @param iterator of your choosing.
+     */
     public void lighteffects(TreeIterator iterator)
     {
         gui.animate.getChildren().clear();
@@ -73,12 +94,21 @@ public class Controller< T > {
         gui.animate.play();
     }
 
-    public void setActionListeners() {
+    /**
+     * Sets action listeners to the animation buttons.
+     */
+    public void setActionListeners()
+    {
         gui.preOrder.setOnAction( e -> lighteffects(   tree.preOrderIterator()));
         gui.postOrder.setOnAction( e -> lighteffects(  tree.postOrderIterator()));
         gui.inOrder.setOnAction( e -> lighteffects(    tree.inOrderIterator()));
         gui.levelOrder.setOnAction( e -> lighteffects( tree.levelOrderIterator()));
     }
+
+    /**
+     * Creates dummytree for testing purposes.
+     * @return a tree.
+     */
     public static BinaryTree createDummyTree( )
     {
 
