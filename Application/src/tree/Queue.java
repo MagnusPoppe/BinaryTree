@@ -36,8 +36,10 @@ public class Queue<T> {
     /** Dequeue:
      * Fjerner gjeldende element fra køen.
      */
-    public void dequeue() {
+    public T dequeue() {
+        T element = liste.get( 0 );
         liste.remove(0);
+        return element;
     }
 
     /** Get first:
@@ -45,6 +47,10 @@ public class Queue<T> {
      */
     public T getFirst() {
         return liste.get(0);
+    }
+
+    public boolean isEmpty() {
+        return liste.isEmpty();
     }
 
 }

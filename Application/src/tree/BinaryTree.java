@@ -295,12 +295,15 @@ public class BinaryTree< T > implements Iterable< T > {
     public class LevelOrderIterator implements TreeIterator
     {
         BinaryNode< T > current;
-        BinaryNode< T > > queue;
+
+        // Using my own queue class to get the
+        // proper method names.
+        Queue<BinaryNode< T > > queue;
 
         public LevelOrderIterator()
         {
-            queue = new ArrayList<>(  );
-            queue.add
+            queue = new Queue<>(  );
+            queue.enqueue(getRoot());
         }
 
         @Override
@@ -312,7 +315,16 @@ public class BinaryTree< T > implements Iterable< T > {
         @Override
         public T next( )
         {
-            return null;
+            current = queue.dequeue();
+
+            if (current.getLeftChild() != null ) {
+                queue.enqueue(current.getLeftChild());
+            }
+            if (current.getRightChild() != null ) {
+                queue.enqueue(current.getRightChild());
+            }
+
+            return current.getElement();
         }
     }
 
