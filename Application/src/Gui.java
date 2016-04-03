@@ -1,14 +1,12 @@
 import javafx.animation.FillTransition;
 import javafx.animation.SequentialTransition;
 import javafx.application.Application;
+import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.ColumnConstraints;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -17,6 +15,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import javafx.util.Duration;
 import tree.BinaryNode;
 
@@ -32,7 +31,6 @@ public class Gui extends Application {
     // Constants
     final public static double RADIUS = 20;
     final public static double PANELWIDTH = 125;
-    final public static double WINDOWWIDTH = PANELWIDTH + Controller.X;
     final private static Color NODECOLOR = Color.LIGHTBLUE;
     final private static Color ANIMATECOLOR = Color.LIGHTCYAN;
     final private static Duration BLINKTIME = new Duration( 100 );
@@ -56,20 +54,39 @@ public class Gui extends Application {
         stage.setScene( scene );
         stage.setTitle( "Graphical view of a binary tree" );
         ctrl.buildTree( );
+        stage.setX( 400 );
         stage.show( );
 
-        controlpanel( new Stage( ) );
+        controlpanel( new Stage( ), stage );
+
     }
 
     /**
      * Opens a second window to control the tree.
      * @param controlpanel stage.
      */
-    public void controlpanel( Stage controlpanel )
+    public void controlpanel( Stage controlpanel, Stage mainstage )
     {
-        Scene controllerscene = new Scene( panel, 200, 200 );
+        Scene controllerscene = new Scene( panel, 130, 200 );
         controlpanel.setScene( controllerscene );
+        controlpanel.setX( controlpanel.getX()+(Controller.X/2) );
         controlpanel.show( );
+
+        // Closing both windows at the same time.
+        controlpanel.setOnCloseRequest(new EventHandler<WindowEvent>() {
+            @Override
+            public void handle(WindowEvent event) {
+                controlpanel.close();
+                mainstage.close();
+            }
+        });
+        mainstage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+            @Override
+            public void handle(WindowEvent event) {
+                controlpanel.close();
+                mainstage.close();
+            }
+        });
     }
 
     /**
