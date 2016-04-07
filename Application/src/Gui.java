@@ -17,6 +17,7 @@ import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import javafx.util.Duration;
+import searchTree.BinarySearchNode;
 import tree.BinaryNode;
 
 /**
@@ -97,7 +98,7 @@ public class Gui extends Application {
     {
         // Readying the window:
         root = new Group( );
-        panel = new VBox( 10 );
+        panel = new VBox( 20 );
 
         // Creating the controls:
         iteration = new Label( "Visualize the iteration" );
@@ -121,7 +122,7 @@ public class Gui extends Application {
      * @param parentX coordinates for the new node.
      * @param parentY coordinates for the new node.
      */
-    public void drawNode( BinaryNode value, double x, double y, double parentX, double parentY )
+    public void drawNode(BinarySearchNode value, double x, double y, double parentX, double parentY )
     {
         // Adding line to connect the new circle to parent node.
         if ( y != Controller.treeHeight + Gui.RADIUS ) { //If not rot
@@ -154,14 +155,25 @@ public class Gui extends Application {
     public static void findCircle( BinaryNode value ) {
         int i = 0;
         for ( Node n : root.getChildren( ) ) {
-            if ( n instanceof Text ) {
+            // Checking for the correct node type.
+            if ( n instanceof Text )
+            {
                 Text other = ( Text ) n;
-                if ( other.getText( ).equals( value.getElement( ).toString( ) ) ) {
+                if ( other.getText().equals(value.getElement().toString()))
+                {
                     Circle c = ( Circle ) root.getChildren( ).get( i - 1 );
-                    FillTransition ft = new FillTransition( BLINKTIME, c, NODECOLOR, ANIMATECOLOR );
-                    ft.setCycleCount( 2 );
-                    ft.setAutoReverse( true );
-                    animate.getChildren( ).addAll( ft );
+
+                    // Animating:
+                    FillTransition transition = new FillTransition(
+                        BLINKTIME,
+                        c,
+                        NODECOLOR,
+                        ANIMATECOLOR
+                    );
+                    transition.setCycleCount( 2 );
+                    transition.setAutoReverse( true );
+                    animate.getChildren( ).addAll( transition );
+
                 }
             }
             i++;

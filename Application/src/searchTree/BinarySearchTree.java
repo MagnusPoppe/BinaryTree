@@ -1,211 +1,96 @@
-package tree;
+package searchTree;
 
 import java.util.Iterator;
 import java.util.LinkedList;
 
 /**
- * Binary tree class uses a single rootnode to create
- * a tree.Because this class is BIG, here's an overiew:
- * <p>
- * INNER CLASSES:
- * PreOrderIterator, creates a preorder iterator.
- * PostOrderIterator, creates a postorder iterator.
- * LevelOrderIterator, creates a levelorder iterator.
- * InOrderIterator, creates a inorder iterator.
- * <p>
- * METHOD LIST:
- * getRoot(): returns the root element.
- * size() = calculateSize(): returns the number of elements in the tree.
- * height() = calculateHeight(): returns the height of the tree.
- * iterator(): Returns the default iterator.
- * preOrderIterator(): returns a preorder iterator.
- * postOrderIterator(): returns a postorder iterator.
- * levelOrderIterator(): returns a levelorder iterator.
- * inOrderIterator(): returns a inorder Iterator.
- * <p>
- * Created by Magnus Poppe Wang on 31.03.2016.
- *
- * @Author Magnus Poppe Wang
+ * Created by Magnu on 07.04.2016.
  */
-public class BinaryTree<T> implements Iterable<T> {
+public class BinarySearchTree< T extends Comparable< ? super T > > implements Iterable<T>
+{
 
-    /**
-     * This is the root of the tree. All
-     * branches and leafes are attached to
-     * the root.
-     */
-    private BinaryNode<T> root;
+    private BinarySearchNode<T> root;
 
-    /**
-     * Constuctor to create a complete tree.
-     *
-     * @param element for the root node.
-     * @param lt      left hand tree.
-     * @param rt      right hand tree.
-     */
-    public BinaryTree(T element, BinaryTree lt, BinaryTree rt) {
-        this.root = new BinaryNode<>(
+    public BinarySearchTree(T element, BinarySearchTree lc, BinarySearchTree rc)
+    {
+        this.root = new BinarySearchNode<>(
                 element,
-                (lt != null) ? lt.getRoot() : null,
-                (rt != null) ? rt.getRoot() : null
+                (lc != null) ? lc.getRoot() : null,
+                (rc != null) ? rc.getRoot() : null
         );
     }
 
-    /**
-     * Second constructor for creating only the root node.
-     *
-     * @param element for the root node.
-     */
-    public BinaryTree(T element) {
+    public BinarySearchTree(T element)
+    {
         this(element, null, null);
     }
 
-    public BinaryTree()
-    {
-        this(null, null, null);
+
+    public void insert( T element ) {
+        insertNode(element, getRoot());
     }
 
-    /**
-     * Standard getter for the root node.
-     */
-    public BinaryNode getRoot() {
+    private void insertNode( T element, BinarySearchNode<T> node)
+    {
+        if ( element.compareTo(node.getElement()) < 0)
+        {
+            if(node.getLeftChild() != null) {
+                insertNode(element, node.getLeftChild());
+            }
+            else {
+                node.setLeftChild(new BinarySearchNode<>(element));
+            }
+        }
+        else if ( element.compareTo(node.getElement()) > 0)
+        {
+            if(node.getRightChild() != null) {
+                insertNode(element, node.getRightChild());
+            }
+            else {
+                node.setRightChild(new BinarySearchNode<>(element));
+            }
+        }
+        else System.out.println("DUPLIKAT");
+    }
+
+//    private void insertNode( T element, BinarySearchNode<T> node)
+//    {
+//        if( node.getLeftChild() != null) {
+//            if (node.getRightChild() != null) {
+//                if (node.getLeftChild().compareTo(node.getRightChild()) > 0) {
+//
+//                }
+//                else if (node.getLeftChild().compareTo(node.getRightChild()) < 0) {
+//                    insertNode(element, node.getLeftChild());
+//                }
+//                else {
+//                    System.out.println("duplicate.");
+//                    return;
+//                }
+//            }
+//            else {
+//                node.setRightChild(new BinarySearchNode<>(element));
+//            }
+//        }
+//        else
+//        {
+//            if (node.getElement().compareTo(element) < 0) {
+//                node.setLeftChild(new BinarySearchNode<>(element));
+//            }
+//            else if (node.getElement().compareTo(element) > 0) {
+//                node.setRightChild(new BinarySearchNode<>(element));
+//            }
+//        }
+//    }
+
+
+    public BinarySearchNode<T> getRoot()
+    {
         return root;
     }
 
-    /******************************* KLADD FRA TIMEN! ****************************
-
-    /**
-     * Insert inside the node class.
-     *
-    public void insert( T element ) {
-        root = root.insert(element);
-    }
-
-    /**
-     * Insert method 2, iterative
-     *
-    public void insert( T element ) throws Exception
-    {
-        BinaryNode<T> node = getRoot();
-        if (root == null) root = new BinaryNode<>(element, null, null);
-
-        while ( true )
-        {
-            if (element.compareTo(node.getElement()) > 0)
-            {
-                if (node.getLeftChild() != null) {
-                    node = node.getLeftChild();
-                }
-                else {
-                    node.lc = new BinaryNode<>(element, null, null);
-                    return;
-                }
-            }
-            else if (element.compareTo(node.getElement()) < 0)
-            {
-                if (node.getRightChild() != null) {
-                    node = node.getRightChild();
-                }
-                else {
-                    node.rc = new BinaryNode<>(element, null, null);
-                    return;
-                }
-            }
-            else throw new Exception("Duplicate.");
-        }
-    }
-
-
-    /**
-     * Inserts element into a balanced tree.
-     *
-     * NOTE: CANNOT BE USED BEFORE YOU IMPLEMENT COMPARABLE.
-     * @param element
-     * @param node
-     *
-    protected void insert(T element, BinaryNode node) throws Exception
-    {
-        if (getRoot() == null)
-        {
-            node = new BinaryNode(element, null, null);
-        }
-        else if (node.getElement().compareTo(element) > 0)
-        {
-            if (node.getLeftChild() != null)
-            {
-                insert(element, node.getLeftChild());
-            }
-            else node = new BinaryNode(element, null, null);
-        }
-        else if (node.getElement().compareTo(element) < 0)
-        {
-            if (node.getRightChild() != null)
-            {
-                insert(element, node.getRightChild());
-            }
-            else node = new BinaryNode(element, null, null);
-        }
-        else throw new Exception("Duplicate elements.");
-    }
-
-    *******************************Slutt på kladd**********************************/
-
-    /**
-     * Gets the size of the whole tree, beginning from root.
-     * Previously used, but not anymore.
-     *
-     * @return the total amount of nodes in the tree.
-     */
-    public int size() {
-        return calculateSize(getRoot(), 1);
-    }
-
-    /**
-     * Calculates the size of the tree by recursively visiting
-     * every node. NOTE: Slow.
-     *
-     * @param node used for recursion
-     * @param size used for recursion
-     * @return the size of the tree.
-     */
-    private static int calculateSize(BinaryNode node, int size) {
-
-        if (node.getLeftChild() != null) {
-            size = calculateSize(node.getLeftChild(), size + 1);
-        }
-        if (node.getRightChild() != null) {
-            size = calculateSize(node.getRightChild(), size + 1);
-        }
-        return size;
-    }
-
-    /**
-     * Gets the height of the tree.
-     *
-     * @return the height of the tree
-     */
-    public int height() {
-        return calculateHeight(getRoot(), 0);
-    }
-
-    /**
-     * calculates the height of the left child tree and the
-     * right child tree, then selects the tallest.
-     *
-     * @param node
-     * @param height
-     * @return the height of the tree.
-     */
-    private int calculateHeight(BinaryNode node, int height) {
-        int height1 = 0;
-        int height2 = 0;
-        if (node.getLeftChild() != null) {
-            height1 = Math.max(height, calculateSize(node.getLeftChild(), height + 1));
-        }
-        if (node.getRightChild() != null) {
-            height2 = Math.max(height, calculateSize(node.getRightChild(), height + 1));
-        }
-        return Math.max(height1, height2);
+    public String toString() {
+        return getRoot().getElement().toString();
     }
 
     /**
@@ -279,8 +164,8 @@ public class BinaryTree<T> implements Iterable<T> {
      * BINARYTREE/BINARYNODE.
      */
     public class PreOrderIterator implements TreeIterator {
-        BinaryNode<T> current;
-        LinkedList<BinaryNode<T>> stack;
+        BinarySearchNode<T> current;
+        LinkedList<BinarySearchNode<T>> stack;
 
         /**
          * Constructor.
@@ -315,7 +200,7 @@ public class BinaryTree<T> implements Iterable<T> {
          * @return the next node
          */
         @Override
-        public BinaryNode<T> nextNode() {
+        public BinarySearchNode<T> nextNode() {
             return nextMethod();
         }
 
@@ -324,7 +209,7 @@ public class BinaryTree<T> implements Iterable<T> {
          *
          * @return next node.
          */
-        public BinaryNode<T> nextMethod() {
+        public BinarySearchNode<T> nextMethod() {
             // Getting the object in question:
             current = stack.pop();
 
@@ -351,8 +236,8 @@ public class BinaryTree<T> implements Iterable<T> {
      */
     public class PostOrderIterator implements TreeIterator {
 
-        BinaryNode<T> current;
-        LinkedList<BinaryNode<T>> stack;
+        BinarySearchNode<T> current;
+        LinkedList<BinarySearchNode<T>> stack;
         LinkedList<Integer> seenStack;
 
         /**
@@ -391,7 +276,7 @@ public class BinaryTree<T> implements Iterable<T> {
          * @return the next node
          */
         @Override
-        public BinaryNode<T> nextNode() {
+        public BinarySearchNode<T> nextNode() {
             return nextMethod();
         }
 
@@ -400,7 +285,7 @@ public class BinaryTree<T> implements Iterable<T> {
          *
          * @return next node.
          */
-        public BinaryNode<T> nextMethod() {
+        public BinarySearchNode<T> nextMethod() {
 
             while (true) {
 
@@ -443,11 +328,11 @@ public class BinaryTree<T> implements Iterable<T> {
      * from top being 0 to bottom being last.
      */
     public class LevelOrderIterator implements TreeIterator {
-        BinaryNode<T> current;
+        BinarySearchNode<T> current;
 
         // Using my own queue class to get the
         // proper method names.
-        Queue<BinaryNode<T>> queue;
+        Queue<BinarySearchNode<T>> queue;
 
         /**
          * Constructor.
@@ -485,7 +370,7 @@ public class BinaryTree<T> implements Iterable<T> {
          * @return the next node
          */
         @Override
-        public BinaryNode<T> nextNode() {
+        public BinarySearchNode<T> nextNode() {
             return nextMethod();
         }
 
@@ -494,7 +379,7 @@ public class BinaryTree<T> implements Iterable<T> {
          *
          * @return next node.
          */
-        public BinaryNode<T> nextMethod() {
+        public BinarySearchNode<T> nextMethod() {
             // Dequeues the current element for processing.
             current = queue.dequeue();
 
@@ -518,8 +403,8 @@ public class BinaryTree<T> implements Iterable<T> {
      */
     public class InOrderIterator implements TreeIterator {
 
-        BinaryNode<T> current;
-        LinkedList<BinaryNode<T>> stack;
+        BinarySearchNode<T> current;
+        LinkedList<BinarySearchNode<T>> stack;
         LinkedList<Integer> seenStack;
 
         /**
@@ -558,7 +443,7 @@ public class BinaryTree<T> implements Iterable<T> {
          * @return the next node
          */
         @Override
-        public BinaryNode<T> nextNode() {
+        public BinarySearchNode<T> nextNode() {
             return nextMethod();
         }
 
@@ -568,7 +453,7 @@ public class BinaryTree<T> implements Iterable<T> {
          *
          * @return next element.
          */
-        public BinaryNode<T> nextMethod() {
+        public BinarySearchNode<T> nextMethod() {
             while (true) {
                 current = stack.pop();
                 int seen = seenStack.pop();
@@ -604,3 +489,4 @@ public class BinaryTree<T> implements Iterable<T> {
         }
     }
 }
+

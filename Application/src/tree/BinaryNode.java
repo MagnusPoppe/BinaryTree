@@ -28,6 +28,10 @@ public class BinaryNode< T > {
         this.rc = rc;
     }
 
+    protected BinaryNode(){
+        this(null, null, null);
+    }
+
     /**
      * Standard getter.
      *
@@ -40,7 +44,6 @@ public class BinaryNode< T > {
 
     /**
      * Standard setter and getter.
-     *
      * @return the node of the left child.
      */
     public BinaryNode getLeftChild( )
@@ -56,6 +59,32 @@ public class BinaryNode< T > {
     public BinaryNode getRightChild( )
     {
         return rc;
+    }
+
+    /**
+     *
+     * @param element
+     * @param node
+     *
+    protected void insert( T element , BinaryNode node)
+    {
+        if (element.compareTo(node.element) > 0)
+        {
+            if ( node.lc != null ) node = insert(element, node.lc);
+            else{
+                node.lc = new BinaryNode<>(element, null, null);
+                return;
+            }
+        }
+        else if (element.compareTo(node.element) < 0)
+        {
+            if ( node.rc != null ) node = insert(element, node.rc);
+            else {
+                node.rc = new BinaryNode<>(element, null, null);
+                return;
+            }
+        }
+        else throw new Exception("Duplicate.");
     }
 
     /**

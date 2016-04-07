@@ -1,6 +1,7 @@
-import tree.BinaryNode;
-import tree.BinaryTree;
-import tree.TreeIterator;
+import searchTree.BinarySearchNode;
+import searchTree.BinarySearchTree;
+import tree.*;
+
 /**
  * Controller class for the graphical view of a
  * binary trees MVC. Runs different animations.
@@ -16,7 +17,8 @@ public class Controller< T > {
 
     // Objects:
     Gui gui;
-    BinaryTree< T > tree;
+
+    BinarySearchTree< Integer > tree;
     public static int treeHeight;
 
     /**
@@ -25,8 +27,15 @@ public class Controller< T > {
     public Controller( )
     {
         gui = new Gui( );
-        setActionListeners( );
-        tree = createDummyTree( );
+        //setActionListeners( );
+        tree = new BinarySearchTree<>(10);
+        BinarySearchTree<Integer> tree = new BinarySearchTree<>(3);
+        for (int i = 0; i < 10; i++) {
+            tree.insert((int)(Math.random() * 100) -1);
+            System.out.println("ROOT"+tree.getRoot());
+        }
+
+        //tree = createDummyTree( );
     }
 
     /**
@@ -35,7 +44,7 @@ public class Controller< T > {
      */
     public void buildTree( )
     {
-        treeHeight = Y / tree.height( );
+        treeHeight = Y/tree.getRoot().getHeight();
         makeTree( tree.getRoot( ), X / 2, ( int ) Gui.RADIUS, 0, X );
     }
 
@@ -48,7 +57,7 @@ public class Controller< T > {
      * @param leftBorder  to find placements for circles.
      * @param rightBorder to find placements for circles.
      */
-    public void makeTree( BinaryNode node, int prevX, int prevY, int leftBorder, int rightBorder )
+    public void makeTree(BinarySearchNode node, int prevX, int prevY, int leftBorder, int rightBorder )
     {
         int center = ( rightBorder - leftBorder ) / 2;
         if ( node.getLeftChild( ) != null ) {
@@ -97,13 +106,13 @@ public class Controller< T > {
     /**
      * Sets action listeners to the animation buttons.
      */
-    public void setActionListeners( )
-    {
-        gui.preOrder.setOnAction( e -> lighteffects( tree.preOrderIterator( ) ) );
-        gui.postOrder.setOnAction( e -> lighteffects( tree.postOrderIterator( ) ) );
-        gui.inOrder.setOnAction( e -> lighteffects( tree.inOrderIterator( ) ) );
-        gui.levelOrder.setOnAction( e -> lighteffects( tree.levelOrderIterator( ) ) );
-    }
+//    public void setActionListeners( )
+//    {
+//        gui.preOrder.setOnAction( e -> lighteffects( tree.preOrderIterator( ) ) );
+//        gui.postOrder.setOnAction( e -> lighteffects( tree.postOrderIterator( ) ) );
+//        gui.inOrder.setOnAction( e -> lighteffects( tree.inOrderIterator( ) ) );
+//        gui.levelOrder.setOnAction( e -> lighteffects( tree.levelOrderIterator( ) ) );
+//    }
 
     /**
      * Creates dummytree for testing purposes.
@@ -128,5 +137,10 @@ public class Controller< T > {
         BinaryTree< String > b = new BinaryTree<>( "b", c, d );
         BinaryTree< String > tree = new BinaryTree<>( "R", a, b );
         return tree;
+    }
+
+    public static BinarySearchTree createDummySearchTree( )
+    {
+        return null;
     }
 }
