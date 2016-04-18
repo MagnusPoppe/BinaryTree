@@ -7,6 +7,7 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -50,16 +51,24 @@ public class Gui extends Application {
     @Override
     public void start( Stage stage )
     {
-        Controller< String > ctrl = new Controller<>( );
+        Controller< Integer > ctrl = new Controller<>( );
         Scene scene = new Scene( root, ctrl.X, ctrl.Y );
         stage.setScene( scene );
         stage.setTitle( "Graphical view of a binary tree" );
-        ctrl.buildTree( );
         stage.setX( 400 );
         stage.show( );
 
-        controlpanel( new Stage( ), stage );
+        Label insert = new Label("Insert node: ");
+        TextField value = new TextField();
+        value.setPromptText( "Type in node value" );
+        Button insertBtn = new Button("Insert value");
+        panel.getChildren().addAll(insert, value, insertBtn);
 
+        insertBtn.setOnAction( e -> ctrl.insert(
+                Integer.parseInt( value.getText())
+        ) );
+
+        controlpanel( new Stage( ), stage );
     }
 
     /**
@@ -68,7 +77,7 @@ public class Gui extends Application {
      */
     public void controlpanel( Stage controlpanel, Stage mainstage )
     {
-        Scene controllerscene = new Scene( panel, 130, 200 );
+        Scene controllerscene = new Scene( panel, 200, 300 );
         controlpanel.setScene( controllerscene );
         controlpanel.setX( controlpanel.getX()+(Controller.X/2) );
         controlpanel.show( );
@@ -77,17 +86,25 @@ public class Gui extends Application {
         controlpanel.setOnCloseRequest(new EventHandler<WindowEvent>() {
             @Override
             public void handle(WindowEvent event) {
-                controlpanel.close();
-                mainstage.close();
+                endProgram( controlpanel, mainstage );
             }
         });
         mainstage.setOnCloseRequest(new EventHandler<WindowEvent>() {
             @Override
             public void handle(WindowEvent event) {
-                controlpanel.close();
-                mainstage.close();
+                endProgram( controlpanel, mainstage );
             }
         });
+
+        Button exit = new Button("Quit");
+        panel.getChildren().add(exit);
+        exit.setOnAction( e -> endProgram( controlpanel, mainstage ) );
+    }
+
+    public void endProgram(Stage controls, Stage main) {
+        controls.close();
+        main.close();
+        System.exit(0);
     }
 
     /**
@@ -98,7 +115,7 @@ public class Gui extends Application {
     {
         // Readying the window:
         root = new Group( );
-        panel = new VBox( 20 );
+        panel = new VBox( 10 );
 
         // Creating the controls:
         iteration = new Label( "Visualize the iteration" );
@@ -108,6 +125,7 @@ public class Gui extends Application {
         levelOrder = new Button( "Levelorder iteration" );
         panel.getChildren().addAll( iteration, preOrder, postOrder, inOrder, levelOrder );
         panel.setFillWidth( true );
+
         // Readying animations.
         animate = new SequentialTransition( );
     }
@@ -138,7 +156,7 @@ public class Gui extends Application {
         root.getChildren( ).add( circle );
 
         // Adding the text on top of the node.
-        int offset = 3; //to make the text fit vertically.
+        int offset = 5; //to make the text fit vertically.
         Text content = new Text( x - offset, y + offset, value.toString( ) );
         content.setFont( new Font( "Arial", 12 ) );
         content.setTextAlignment( TextAlignment.CENTER );
@@ -152,7 +170,7 @@ public class Gui extends Application {
      * method in the Controller class.
      * @param value of a node
      */
-    public static void findCircle( BinaryNode value ) {
+    public static void findCircle( BinarySearchNode value ) {
         int i = 0;
         for ( Node n : root.getChildren( ) ) {
             // Checking for the correct node type.

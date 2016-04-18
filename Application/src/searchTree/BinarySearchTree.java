@@ -1,5 +1,4 @@
 package searchTree;
-
 import java.util.Iterator;
 import java.util.LinkedList;
 
@@ -25,65 +24,6 @@ public class BinarySearchTree< T extends Comparable< ? super T > > implements It
         this(element, null, null);
     }
 
-
-    public void insert( T element ) {
-        insertNode(element, getRoot());
-    }
-
-    private void insertNode( T element, BinarySearchNode<T> node)
-    {
-        if ( element.compareTo(node.getElement()) < 0)
-        {
-            if(node.getLeftChild() != null) {
-                insertNode(element, node.getLeftChild());
-            }
-            else {
-                node.setLeftChild(new BinarySearchNode<>(element));
-            }
-        }
-        else if ( element.compareTo(node.getElement()) > 0)
-        {
-            if(node.getRightChild() != null) {
-                insertNode(element, node.getRightChild());
-            }
-            else {
-                node.setRightChild(new BinarySearchNode<>(element));
-            }
-        }
-        else System.out.println("DUPLIKAT");
-    }
-
-//    private void insertNode( T element, BinarySearchNode<T> node)
-//    {
-//        if( node.getLeftChild() != null) {
-//            if (node.getRightChild() != null) {
-//                if (node.getLeftChild().compareTo(node.getRightChild()) > 0) {
-//
-//                }
-//                else if (node.getLeftChild().compareTo(node.getRightChild()) < 0) {
-//                    insertNode(element, node.getLeftChild());
-//                }
-//                else {
-//                    System.out.println("duplicate.");
-//                    return;
-//                }
-//            }
-//            else {
-//                node.setRightChild(new BinarySearchNode<>(element));
-//            }
-//        }
-//        else
-//        {
-//            if (node.getElement().compareTo(element) < 0) {
-//                node.setLeftChild(new BinarySearchNode<>(element));
-//            }
-//            else if (node.getElement().compareTo(element) > 0) {
-//                node.setRightChild(new BinarySearchNode<>(element));
-//            }
-//        }
-//    }
-
-
     public BinarySearchNode<T> getRoot()
     {
         return root;
@@ -91,6 +31,117 @@ public class BinarySearchTree< T extends Comparable< ? super T > > implements It
 
     public String toString() {
         return getRoot().getElement().toString();
+    }
+
+    public void insert( T element )
+    {
+        if(root == null) {
+            root = new BinarySearchNode<>( element );
+            return;
+        }
+
+        try {
+            root = insertNode(element, getRoot());
+
+        }
+        catch (Exception e ) {
+            //System.out.println( "Cannot insert duplicate value "+element+".");
+        }
+        //heightDepth( 0, root );
+    }
+
+
+    private BinarySearchNode<T> insertNode( T element, BinarySearchNode<T> node) throws Exception
+    {
+        if (node == null) {
+            BinarySearchNode<T>returnNode = new BinarySearchNode<>( element );
+            returnNode.height = 0;
+            return returnNode;
+        }
+        else if( element.compareTo( node.element ) < 0 )
+        {
+            node.lc = insertNode( element, node.lc );
+        }
+        else if( element.compareTo( node.element ) > 0 )
+        {
+            node.rc = insertNode( element, node.rc );
+        }
+        else throw new Exception( "Duplicate" );
+
+        // GETTING THE HEIGHT:
+        int left  = (node.lc != null) ? node.lc.height : -1;
+        int right = (node.rc != null) ? node.rc.height : -1;
+
+        node.height = Math.max(left, right) +1;
+        checkBalance( node );
+        return node;
+    }
+
+    private BinarySearchNode<T> checkBalance(BinarySearchNode<T> node)
+    {
+        System.out.println( node.lc.height + "-" +  node.rc.height +"="+ Math.abs(node.lc.height - node.rc.height) );
+        if ( Math.abs(node.lc.height - node.rc.height) > 1)
+        {
+            System.out.println( "BALANCING..." );
+            if( node.rc.height < node.lc.height)
+            {
+                if (node.lc.rc.height > node.lc.lc.height) {
+                    doubleBalanceLeft( node );
+                }
+                else node = balanceLeft( node );
+            }
+            else // KAN IKKE VÆRE LIKE FORDI DIFF > 1.
+            {
+                if (node.rc.rc.height < node.rc.lc.height) {
+                    doubleBalanceRight( node );
+                }
+                else node = balanceRight( node );
+            }
+        }
+        return node;
+    }
+
+
+    /**
+     * Adjusts balance for the right node from
+     * the complaintive. The complaintives left tree
+     * is shorter than its right tree.
+     */
+    public BinarySearchNode<T> balanceRight( BinarySearchNode<T> node )
+    {
+        System.out.println( "balance right: rising " + node.rc.element );
+        BinarySearchNode<T> temp = node.rc;
+        node.rc = temp.lc;
+        temp.lc = node;
+        return temp;
+    }
+
+    public BinarySearchNode<T> doubleBalanceRight( BinarySearchNode<T> node )
+    {
+        System.out.println( "DOUBLE BALANCE!!" );
+        node.rc = balanceLeft( node.rc );
+        return balanceRight( node );
+    }
+
+    /**
+     * Adjusts balance for the right node from
+     * the complaintive. The complaintives left tree
+     * is shorter than its right tree.
+     */
+    public BinarySearchNode<T> balanceLeft( BinarySearchNode<T> node )
+    {
+        System.out.println( "balance right: rising " + node.lc.element );
+        BinarySearchNode<T> temp = node.lc;
+        node.lc = temp.rc;
+        temp.rc = node;
+        return temp;
+    }
+
+    public BinarySearchNode<T> doubleBalanceLeft( BinarySearchNode<T> node )
+    {
+        System.out.println( "DOUBLE BALANCE!!" );
+        node.lc = balanceRight( node.lc );
+        return balanceLeft( node );
     }
 
     /**

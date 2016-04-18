@@ -6,11 +6,11 @@ package searchTree;
 public class BinarySearchNode<T extends Comparable<? super T>>
 {
 
-    private int height;          // Height of this node.
-
-    private T element;           // This nodes content.
-    private BinarySearchNode lc; // The child on the left hand side.
-    private BinarySearchNode rc; // The child on the right hand side.
+    protected int height;          // Height of this node.
+    protected int depth;
+    protected T element;           // This nodes content.
+    protected BinarySearchNode lc; // The child on the left hand side.
+    protected BinarySearchNode rc; // The child on the right hand side.
 
     /**
      * Constructor:
@@ -24,7 +24,8 @@ public class BinarySearchNode<T extends Comparable<? super T>>
         this.element = element;
         this.lc = lc;
         this.rc = rc;
-        height = Math.max(lc.getHeight(), lc.getHeight());
+        height = 0;
+        depth = 0;
     }
 
     protected BinarySearchNode(T element)
@@ -40,9 +41,9 @@ public class BinarySearchNode<T extends Comparable<? super T>>
     {
         return height;
     }
+
     /**
      * Standard getter.
-     *
      * @return this nodes content.
      */
     public T getElement( )
@@ -61,7 +62,6 @@ public class BinarySearchNode<T extends Comparable<? super T>>
 
     /**
      * Standard setter and getter.
-     *
      * @return the node of the right child.
      */
     public BinarySearchNode getRightChild( )

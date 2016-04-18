@@ -1,6 +1,6 @@
 import searchTree.BinarySearchNode;
 import searchTree.BinarySearchTree;
-import tree.*;
+import searchTree.TreeIterator;
 
 /**
  * Controller class for the graphical view of a
@@ -9,16 +9,16 @@ import tree.*;
  *
  * @author Magnus Poppe Wang
  */
-public class Controller< T > {
+public class Controller< T extends Comparable<? super T> > {
 
     // Constants:
-    final public static int X = 800; //X-axis length of gui window.
-    final public static int Y = 600; //Y-axis length of gui window.
+    final public static int X = 1200; //X-axis length of gui window.
+    final public static int Y = 1200; //Y-axis length of gui window.
 
     // Objects:
     Gui gui;
 
-    BinarySearchTree< Integer > tree;
+    BinarySearchTree< T > tree;
     public static int treeHeight;
 
     /**
@@ -27,15 +27,12 @@ public class Controller< T > {
     public Controller( )
     {
         gui = new Gui( );
-        //setActionListeners( );
-        tree = new BinarySearchTree<>(10);
-        BinarySearchTree<Integer> tree = new BinarySearchTree<>(3);
-        for (int i = 0; i < 10; i++) {
-            tree.insert((int)(Math.random() * 100) -1);
-            System.out.println("ROOT"+tree.getRoot());
-        }
+        setActionListeners( );
+        tree = createDummySearchTree();
 
-        //tree = createDummyTree( );
+
+        System.out.println(tree.getRoot().getHeight() );
+        buildTree();
     }
 
     /**
@@ -44,7 +41,7 @@ public class Controller< T > {
      */
     public void buildTree( )
     {
-        treeHeight = Y/tree.getRoot().getHeight();
+        treeHeight = Y/ 10;//(tree.getRoot().getHeight() + 5);
         makeTree( tree.getRoot( ), X / 2, ( int ) Gui.RADIUS, 0, X );
     }
 
@@ -87,6 +84,13 @@ public class Controller< T > {
         );
     }
 
+    public void insert( T value )
+    {
+        tree.insert(value);
+        //gui = new Gui();
+        buildTree();
+    }
+
     /**
      * Creates an animation of a iteration. Accepts
      * all kinds of tree iterators.
@@ -97,7 +101,7 @@ public class Controller< T > {
     {
         gui.animate.getChildren( ).clear( );
         while ( iterator.hasNext( ) ) {
-            BinaryNode< T > current = iterator.nextNode( );
+            BinarySearchNode current = iterator.nextNode( );
             gui.findCircle( current );
         }
         gui.animate.play( );
@@ -106,41 +110,50 @@ public class Controller< T > {
     /**
      * Sets action listeners to the animation buttons.
      */
-//    public void setActionListeners( )
-//    {
-//        gui.preOrder.setOnAction( e -> lighteffects( tree.preOrderIterator( ) ) );
-//        gui.postOrder.setOnAction( e -> lighteffects( tree.postOrderIterator( ) ) );
-//        gui.inOrder.setOnAction( e -> lighteffects( tree.inOrderIterator( ) ) );
-//        gui.levelOrder.setOnAction( e -> lighteffects( tree.levelOrderIterator( ) ) );
-//    }
+    public void setActionListeners( )
+    {
+        gui.preOrder.setOnAction( e -> lighteffects( tree.preOrderIterator( ) ) );
+        gui.postOrder.setOnAction( e -> lighteffects( tree.postOrderIterator( ) ) );
+        gui.inOrder.setOnAction( e -> lighteffects( tree.inOrderIterator( ) ) );
+        gui.levelOrder.setOnAction( e -> lighteffects( tree.levelOrderIterator( ) ) );
+    }
 
     /**
      * Creates dummytree for testing purposes.
      *
      * @return a tree.
      */
-    public static BinaryTree createDummyTree( )
-    {
-
-        BinaryTree< String > t = new BinaryTree<>( "t" );
-        BinaryTree< String > x = new BinaryTree<>( "x" );
-        BinaryTree< String > c = new BinaryTree<>( "c" );
-        BinaryTree< String > e = new BinaryTree<>( "e" );
-        BinaryTree< String > g = new BinaryTree<>( "g" );
-        BinaryTree< String > æ = new BinaryTree<>( "ø" );
-        BinaryTree< String > q = new BinaryTree<>( "q" );
-        BinaryTree< String > ø = new BinaryTree<>( "æ", q, null );
-        BinaryTree< String > å = new BinaryTree<>( "å", æ, ø );
-        BinaryTree< String > f = new BinaryTree<>( "f", g, å );
-        BinaryTree< String > a = new BinaryTree<>( "a", e, f );
-        BinaryTree< String > d = new BinaryTree<>( "d", t, x );
-        BinaryTree< String > b = new BinaryTree<>( "b", c, d );
-        BinaryTree< String > tree = new BinaryTree<>( "R", a, b );
-        return tree;
-    }
-
+//    public static BinaryTree createDummyTree( )
+//    {
+//
+//        BinaryTree< String > t = new BinaryTree<>( "t" );
+//        BinaryTree< String > x = new BinaryTree<>( "x" );
+//        BinaryTree< String > c = new BinaryTree<>( "c" );
+//        BinaryTree< String > e = new BinaryTree<>( "e" );
+//        BinaryTree< String > g = new BinaryTree<>( "g" );
+//        BinaryTree< String > æ = new BinaryTree<>( "ø" );
+//        BinaryTree< String > q = new BinaryTree<>( "q" );
+//        BinaryTree< String > ø = new BinaryTree<>( "æ", q, null );
+//        BinaryTree< String > å = new BinaryTree<>( "å", æ, ø );
+//        BinaryTree< String > f = new BinaryTree<>( "f", g, å );
+//        BinaryTree< String > a = new BinaryTree<>( "a", e, f );
+//        BinaryTree< String > d = new BinaryTree<>( "d", t, x );
+//        BinaryTree< String > b = new BinaryTree<>( "b", c, d );
+//        BinaryTree< String > tree = new BinaryTree<>( "R", a, b );
+//        return tree;
+//    }
+//
+    /**
+     * Creates dummytree for testing purposes.
+     *
+     * @return a tree.
+     */
     public static BinarySearchTree createDummySearchTree( )
     {
-        return null;
+        BinarySearchTree dummyTree = new BinarySearchTree<>( 500 );
+        for (int i = 0; i < 10; i++) {
+            dummyTree.insert((int)(Math.random() * 1000) -1);
+        }
+        return dummyTree;
     }
 }
