@@ -24,6 +24,11 @@ public class BinarySearchTree< T extends Comparable< ? super T > > implements It
         this(element, null, null);
     }
 
+    public BinarySearchTree()
+    {
+        this(null, null, null);
+    }
+
     public BinarySearchNode<T> getRoot()
     {
         return root;
@@ -35,71 +40,89 @@ public class BinarySearchTree< T extends Comparable< ? super T > > implements It
 
     public void insert( T element )
     {
-        if(root == null) {
+        if(root.element == null) {
             root = new BinarySearchNode<>( element );
             return;
         }
 
-        try {
-            root = insertNode(element, getRoot());
+            root = insertNode( element, getRoot() );
 
-        }
-        catch (Exception e ) {
-            //System.out.println( "Cannot insert duplicate value "+element+".");
-        }
         //heightDepth( 0, root );
     }
 
 
-    private BinarySearchNode<T> insertNode( T element, BinarySearchNode<T> node) throws Exception
+    private BinarySearchNode<T> insertNode( T element, BinarySearchNode<T> node)
     {
+        // REACHED END.
         if (node == null) {
             BinarySearchNode<T>returnNode = new BinarySearchNode<>( element );
             returnNode.height = 0;
             return returnNode;
         }
+
+        // VALUE SHOULD BE PLACED TO THE LEFT OF NODE.
         else if( element.compareTo( node.element ) < 0 )
         {
             node.lc = insertNode( element, node.lc );
         }
+
+        // VALUE SHOULD BE PLACED TO THE RIGHT OF NODE.
         else if( element.compareTo( node.element ) > 0 )
         {
             node.rc = insertNode( element, node.rc );
         }
-        else throw new Exception( "Duplicate" );
+        //else throw new Exception( "Duplicate" );
 
         // GETTING THE HEIGHT:
         int left  = (node.lc != null) ? node.lc.height : -1;
         int right = (node.rc != null) ? node.rc.height : -1;
+        node.height = Math.max( left, right ) +1;
 
-        node.height = Math.max(left, right) +1;
-        checkBalance( node );
-        return node;
-    }
-
-    private BinarySearchNode<T> checkBalance(BinarySearchNode<T> node)
-    {
-        System.out.println( node.lc.height + "-" +  node.rc.height +"="+ Math.abs(node.lc.height - node.rc.height) );
-        if ( Math.abs(node.lc.height - node.rc.height) > 1)
-        {
-            System.out.println( "BALANCING..." );
-            if( node.rc.height < node.lc.height)
-            {
-                if (node.lc.rc.height > node.lc.lc.height) {
-                    doubleBalanceLeft( node );
-                }
-                else node = balanceLeft( node );
-            }
-            else // KAN IKKE VÆRE LIKE FORDI DIFF > 1.
-            {
-                if (node.rc.rc.height < node.rc.lc.height) {
-                    doubleBalanceRight( node );
-                }
-                else node = balanceRight( node );
-            }
+        // CHECKING FOR BALANCE:
+        if ( left - right  > 1 || left - right < -1) {
+            node = checkBalance( node );
         }
         return node;
     }
+
+
+    private BinarySearchNode<T> checkBalance(BinarySearchNode<T> node)
+    {
+        if ( node.lc != null )
+        {
+            if      (node.lc.rc != null) node = doubleBalanceLeft( node );
+            else if (node.lc.lc != null) node = balanceLeft( node );
+        }
+        else if ( node.rc != null )
+        {
+            if      (node.rc.lc != null) node = doubleBalanceRight( node );
+            else if (node.rc.rc != null) node = balanceRight( node );
+        }
+        return node;
+    }
+//
+//    private BinarySearchNode<T> checkBalance(BinarySearchNode<T> node)
+//    {
+//        System.out.println( " BALANCING... Node " + node.element + " is complaining." );
+//
+//        if( node.rc.height < node.lc.height)
+//        {
+//            if (node.lc.rc.height > node.lc.lc.height)
+//            {
+//                node = doubleBalanceLeft( node );
+//            }
+//            else node = balanceLeft( node );
+//        }
+//        else // KAN IKKE VÆRE LIKE FORDI DIFF > 1.
+//        {
+//            if (node.rc.rc.height < node.rc.lc.height)
+//            {
+//                node = doubleBalanceRight( node );
+//            }
+//            else node = balanceRight( node );
+//        }
+//        return node;
+//    }
 
 
     /**

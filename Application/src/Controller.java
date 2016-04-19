@@ -12,8 +12,8 @@ import searchTree.TreeIterator;
 public class Controller< T extends Comparable<? super T> > {
 
     // Constants:
-    final public static int X = 1200; //X-axis length of gui window.
-    final public static int Y = 1200; //Y-axis length of gui window.
+    final public static int X = 800; //X-axis length of gui window.
+    final public static int Y = 800; //Y-axis length of gui window.
 
     // Objects:
     Gui gui;
@@ -28,7 +28,7 @@ public class Controller< T extends Comparable<? super T> > {
     {
         gui = new Gui( );
         setActionListeners( );
-        tree = createDummySearchTree();
+        tree = new BinarySearchTree<T>();
 
 
         System.out.println(tree.getRoot().getHeight() );
@@ -145,6 +145,7 @@ public class Controller< T extends Comparable<? super T> > {
 //
     /**
      * Creates dummytree for testing purposes.
+     * ONLY WORKS WITH INTEGER.
      *
      * @return a tree.
      */

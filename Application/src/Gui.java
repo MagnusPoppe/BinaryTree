@@ -51,7 +51,7 @@ public class Gui extends Application {
     @Override
     public void start( Stage stage )
     {
-        Controller< Integer > ctrl = new Controller<>( );
+        Controller< String > ctrl = new Controller<>( );
         Scene scene = new Scene( root, ctrl.X, ctrl.Y );
         stage.setScene( scene );
         stage.setTitle( "Graphical view of a binary tree" );
@@ -64,9 +64,10 @@ public class Gui extends Application {
         Button insertBtn = new Button("Insert value");
         panel.getChildren().addAll(insert, value, insertBtn);
 
-        insertBtn.setOnAction( e -> ctrl.insert(
-                Integer.parseInt( value.getText())
-        ) );
+        insertBtn.setOnAction( e -> {
+            //ctrl.insert(Integer.parseInt( value.getText( ) ));
+            ctrl.insert( value.getText( ) );
+        });
 
         controlpanel( new Stage( ), stage );
     }
@@ -142,6 +143,8 @@ public class Gui extends Application {
      */
     public void drawNode(BinarySearchNode value, double x, double y, double parentX, double parentY )
     {
+        if (value.getElement() == null) return;
+
         // Adding line to connect the new circle to parent node.
         if ( y != Controller.treeHeight + Gui.RADIUS ) { //If not rot
             Line connection = new Line( x, y, parentX, parentY );
